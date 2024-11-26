@@ -15,6 +15,12 @@ import java.util.List;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiErrorResponse> handleGlobalException(Exception ex) {
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, BMSConstants.UNEXPECTED_ERROR_MESSAGE, BMSConstants.UNEXPECTED_ERROR_CODE);
+    }
+
     public static ResponseEntity<ApiErrorResponse> buildErrorResponse(HttpStatus status, String message, String code) {
         ApiErrorResponse errorResponse = ApiErrorResponse.builder()
                 .message(message)
@@ -23,10 +29,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(errorResponse);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleGlobalException(Exception ex) {
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, BMSConstants.UNEXPECTED_ERROR_MESSAGE, BMSConstants.UNEXPECTED_ERROR_CODE);
-    }
+
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorResponse> MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException exception) {
