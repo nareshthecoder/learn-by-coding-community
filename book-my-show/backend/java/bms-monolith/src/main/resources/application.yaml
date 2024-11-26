@@ -2,17 +2,26 @@ Spring:
   application:
     name: BMS Monolith
   datasource:
-    url: jdbc:mysql://localhost:3306/bms
-    username: ${DB_USERNAME:root}
+    url: jdbc:postgresql://localhost:5432/bms
+    username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:root}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
 server:
   servlet:
     context-path: /api/v1
+app:
+  jwtSecret: ramdom852
+  jwtExpirationMs: 86400000
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
